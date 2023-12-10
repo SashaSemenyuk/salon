@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Service</title>
+</head>
+<body>
+<h2>Update Service</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название услуги</th>
+        <th>Описание</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Перебор услуг для отображения в таблице -->
+    <tr th:each="service : ${services}">
+        <td th:text="${service.serviceId}"></td>
+        <td th:text="${service.serviceName}"></td>
+        <td th:text="${service.description}"></td>
+        <td>
+            <!-- Форма для удаления каждой услуги с подтверждением -->
+
+            <form th:action="@{'/services/update/' + ${service.serviceId}}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="serviceId" th:value="${service.serviceId}" />
+                <td>
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" th:value="${service.price}" />
+                </td>
+                <td>
+                <label for="discount">Discount:</label>
+                <input type="text" id="discount" name="discount" th:value="${service.discount}" />
+                </td>
+                <label for="addOns">Add-ons:</label>
+                <textarea id="addOns" name="addOns" th:text="${service.addOns}"></textarea>
+                <td>
+                <label for="serviceImageFile">Service Image:</label>
+                <input type="file" id="serviceImageFile" name="serviceImageFile" />
+                </td>
+                <input type="submit" value="Update Service" />
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Ссылка для отмены удаления -->
+<a th:href="@{/salon/profile}">Отмена</a>
+
+<!-- Ваши скрипты или другие ресурсы -->
+</body>
+</body>
+</html>

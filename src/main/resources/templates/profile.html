@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Профиль</title>
+</head>
+<body>
+<header class="header">
+    <div class="main">
+        <h1 class="header_title">
+            Салон красоты
+        </h1>
+        <div id="main-page">
+            <a th:href="@{/salon}">Главная</a>
+        </div>
+        <div id="catalog">
+            <a th:href="@{/salon/services}">Услуги</a>
+        </div>
+        <div id="order">
+            <a th:href="@{/order}">Заказ продукции</a>
+        </div>
+        <div id="review">
+            <a th:href="@{/review}">Отзывы клиентов</a>
+        </div>
+        <div id="profile">
+            <a th:href="@{/salon/profile}">Профиль</a>
+        </div>
+    </div>
+</header>
+
+<div class="info">
+    <div class="username">
+        <p class="name" th:text="${user.username}"></p>
+        <div th:if="${user.role == 'admin'}" class="navi">
+            <nav class="menu">
+                <ul class="menu_list">
+                    <li>
+                        <a href="#" class="menu_link">&#8942;</a>
+                        <ul class="sub-menu_list">
+                            <li class="sub-menu_link"><a th:href="@{/services/add}">Добавить услугу</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/services/delete/}">Удалить услугу</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/services/update/}">Изменить услугу</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/profile/updateUserRole}">Добавить мастера</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/profile/addServiceToMaster}">Добавить услугу мастеру</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div th:if="${user.role == 'master'}" class="navi">
+            <nav class="menu">
+                <ul class="menu_list">
+                    <li>
+                        <a href="#" class="menu_link">&#8942;</a>
+                        <ul class="sub-menu_list" style="right: 100px; top: 250px;">
+<!--                            <li class="sub-menu_link"><a th:href="@{/services/add}">Добавить услугу</a></li>-->
+<!--                            <li class="sub-menu_link"><a th:href="@{/services/delete/}">Удалить услугу</a></li>-->
+                            <li class="sub-menu_link"><a th:href="@{/profile/addServiceToMaster}">Добавить услугу</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/services/update/}">Отмена записи</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/profile/updateUserRole}">Просмотр записей</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="action">
+    <div class="choice">
+        <ul>
+            <li><a href="#myorder">Мои заказы</a></li>
+            <li><a href="#myadress">Мои адреса</a></li>
+            <li><a href="#myaccount">Мой аккаунт</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="myorder">
+    <h1 class="my_title">Мои заказы</h1>
+    <p class="my_description">Просматривайте историю заказов и проверяйте статус недавних заказов.</p>
+    <div class="status1">
+<!--        <div th:if="${orders.length > 0}">-->
+<!--            <div th:each="order : ${orders}" class="total">-->
+<!--                <ul>-->
+<!--                    <li th:each="i : ${#numbers.sequence(0, order.title.size() - 1)}">-->
+<!--                        <span th:text="${order.title[i]}, ${order.author[i]}, ${order.count[i]} шт."></span>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <p th:text="'Итого: ' + ${order.price}"></p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div th:unless="${orders.length > 0}">-->
+<!--            <p class="answer1">Вы пока ничего не заказывали.</p>-->
+<!--            <a href="/catalog">Смотреть</a>-->
+<!--        </div>-->
+    </div>
+</div>
+
+<div id="myadress">
+    <h1 class="my_title">Мои адреса</h1>
+    <p class="my_description">Просматривайте историю адресов, которые часто используете</p>
+    <div class="status2">
+<!--        <div th:if="${orders.length > 0}">-->
+<!--            <div th:each="order : ${orders}" class="total">-->
+<!--                <ul>-->
+<!--                    <li th:text="'г. ' + ${order.town} + ', ул. ' + ${order.street} + ', дом ' + ${order.home}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div th:unless="${orders.length > 0}">-->
+<!--            <p class="answer2">Вы ещё не сохранили ни одного адреса.</p>-->
+<!--            <a href="/order">Добавить</a>-->
+<!--        </div>-->
+    </div>
+</div>
+
+<div id="myaccount">
+    <h1 class="my_title">Мой аккаунт</h1>
+    <p class="my_description">Просмотрите и отредактируйте сведения о себе.</p>
+    <div class="status3">
+        <p>Обновите личную информацию.</p>
+        <p th:text="'Эл. почта для входа: ' + ${user.email}"></p>
+        <p class="warning">Адрес эл. почты, используемый для входа, нельзя изменить</p>
+        <form th:action="@{/profile}" method="post">
+            <div class="fields">
+                <div class="half">
+                    <label for="username">Имя пользователя</label><br>
+                    <input type="text" id="username" name="username" th:value="${user.username}">
+                    <br>
+                    <label for="email">Эл. почта*</label><br>
+                    <input type="email" id="email" readonly th:placeholder="${user.email}">
+                </div>
+                <div class="half">
+                    <label for="password">Пароль</label><br>
+                    <input type="password" id="password" name="password" th:value="${user.password}">
+                    <label><input type="checkbox" class="password-checkbox"> Показать пароль</label>
+                </div>
+            </div>
+            <div class="buttons">
+                <input type="submit" class="submit" onclick="return confirm('Вы уверены?');" value="Обновить">
+                <input type="reset" id="reset">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="logout">
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" class="submit" value="Выйти" onclick="return confirm('Вы уверены?');">
+    </form>
+</div>
+
+<div class="footer">
+    <h1>Мой сайт</h1>
+    <h2>info@mysite.com</h2>
+    <p>© Мой сайт, 2023.</p>
+</div>
+
+<script th:src="@{/js/profile.js}"></script>
+<script>
+    $(document).ready(function() {
+        $("body").css("opacity", "1");
+    });
+    $('body').on('click', '.password-checkbox', function(){
+        if ($(this).is(':checked')){
+            $('#password').attr('type', 'text');
+        } else {
+            $('#password').attr('type', 'password');
+        }
+    });
+</script>
+</body>
+</html>

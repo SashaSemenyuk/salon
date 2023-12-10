@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/services.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Услуги</title>
+</head>
+<body>
+<header class="header">
+    <div class="main">
+        <h1 class="header_title">
+            Салон красоты
+        </h1>
+        <div id="main-page">
+            <a th:href="@{/salon}">Главная</a>
+        </div>
+        <div id="catalog">
+            <a th:href="@{/salon/services}">Услуги</a>
+        </div>
+        <div id="order">
+            <a th:href="@{/salon/appointment}">Запись на услугу</a>
+        </div>
+        <div id="review">
+            <a th:href="@{/salon/reviews}">Отзывы клиентов</a>
+        </div>
+        <div id="profile">
+            <a th:href="@{/salon/profile}">Профиль</a>
+        </div>
+    </div>
+</header>
+<div class="menu">
+    <div class="options">
+        <div class="options">
+            <div class="filter">
+                Фильтр цены:
+                <form th:action="@{/salon/services/filter}" method="get">
+                    <label for="min_price">C</label>
+                    <input type="number" id="min_price" name="min_price" min="1" max="100" required>
+                    <label for="max_price">До</label>
+                    <input type="number" id="max_price" name="max_price" min="1" max="100" required>
+                    <input type="submit" value="Ок">
+                </form>
+            </div>
+            <div class="sort">
+                Сортировать:
+                <form action="/salon/services/sort" method="get">
+                    <input type="hidden" name="sort" value="name">
+                    <input type="submit" value="По названию услуг">
+                </form>
+                <form action="/salon/services/sort" method="get">
+                    <input type="hidden" name="sort" value="asc_price">
+                    <input type="submit" value="По возрастанию цены">
+                </form>
+                <form action="/salon/services/sort" method="get">
+                    <input type="hidden" name="sort" value="desc_price">
+                    <input type="submit" value="По убыванию цены">
+                </form>
+            </div>
+            <br>
+            <div class="search">
+                Поиск:
+                <form action="/salon/services/search" method="get">
+                    <label for="title">По названию:</label>
+                    <div class="comp">
+                        <input type="search" id="title" name="title" placeholder="Название" required>
+                        <input type="hidden" name="searchType" value="title">
+                        <input type="submit" value="&#x1F50E;&#xFE0E;">
+                    </div>
+                </form>
+                <form action="/salon/services/search" method="get">
+                    <label for="category">По категории:</label>
+                    <div class="comp">
+                        <input type="search" id="category" name="category" placeholder="Категория" required>
+                        <input type="hidden" name="searchType" value="category">
+                        <input type="submit" value="&#x1F50E;&#xFE0E;">
+                    </div>
+                </form>
+                <form>
+                    <label for="author">По автору:</label>
+                    <div class="comp">
+                        <input type="search" id="author" name="author" placeholder="Автор" required>
+                        <input type="submit" value="&#x1F50E;&#xFE0E;">
+                    </div>
+                </form>
+            </div>
+    </div>
+    </div>
+    <div class="container">
+        <div th:if="${not #lists.isEmpty(services)}">
+            <div th:each="service : ${services}" class="card">
+                <div class="face face1">
+                    <div class="content">
+                        <div class="pr_image">
+                            <a th:href="@{'/salon/services/info' + ${service.serviceId}}" class="lightzoom">
+                                <img th:src="@{/img/{imageName}(imageName=${service.serviceImage})}">
+                            </a>
+                            <script type="text/javascript">jQuery('.lightzoom').lightzoom();</script>
+                        </div>
+                        <div class="pt_title">
+                            <h3 th:text="${service.serviceName}"></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="face face2">
+                    <div class="content">
+                        <div class="info">
+                            <p th:text="${service.description}"></p>
+                            <p th:text="'Категория: ' + ${service.category}"></p>
+                            <p th:text="'Пол: ' + ${service.genderSpecific}"></p>
+                            <div class="buy">
+
+                                <p th:if="${service.discount > 0}">
+                                    <span th:text="'Цена: ' + ${service.price}" style="text-decoration: line-through; font-size: 20px; font-weight: bold; width:50px;"></span>
+                                    <br>
+                                    <span th:text="' Со скидкой: ' + ${service.discount}" style="font-size: 20px; font-weight: bold; width:50px; color: red;"></span>
+                                </p>
+                                <p th:unless="${service.discount > 0}" style="font-size: 20px; font-weight: bold; width:50px;" th:text="'Цена: ' + ${service.price}"></p>
+
+<!--                                                        <form method="post" th:action="@{/add-to-cart}">-->
+<!--                                                            <input type="hidden" name="title" th:value="${service.title}" />-->
+<!--                                                            <input type="hidden" name="author" th:value="${service.author}" />-->
+<!--                                                            <input type="hidden" name="price" th:value="${service.price}" />-->
+<!--                                                            <input type="hidden" name="pr_id" th:value="${service.id}" />-->
+<!--                                                            <input type="number" name="count" value="1" placeholder="1" min="1" th:max="${service.count}" required>-->
+<!--                                                            <input type="submit" value="В корзину">-->
+<!--                                                        </form>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(services)}" class="no_items">
+            <p>Скоро здесь появятся услуги</p>
+            <a th:href="@{/salon}">Вернуться на главную</a>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <h1>
+        Мой сайт
+    </h1>
+    <h2>
+        info@mysite.com
+    </h2>
+    <p>
+        © Мой сайт, 2023.
+    </p>
+</div>
+<script th:src="@{/js/services.js}"></script>
+<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+<script th:src="@{/js/lightzoom.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        $("body").css("opacity", "1");
+    });
+
+    ;( function( $ ) {
+        $( '.lightzoom' ).lightzoom( {
+            speed: 400,
+            imgPadding: 10,
+            overlayOpacity: '0.5',
+            viewTitle: false,
+            isOverlayClickClosing: true,
+            isWindowClickClosing: true,
+            isEscClosing: true,
+            boxClass: '',
+            overlayColor: '',
+            titleColor: 'black'
+        });
+    })( jQuery );
+    /*]]>*/
+</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Cormorant:wght@300&family=Merriweather:wght@300&family=Raleway:wght@100&family=Roboto+Slab:wght@200&display=swap');
+@keyframes ani {
+    0% {
+        opacity: 0;
+        transform: translate(0px,200%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0px,0px);
+    }
+}
+body {
+    padding: 0;
+    margin: 0;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    opacity:0;
+    transition:.5s;
+}
+.header_title{
+    display:flex;
+    flex:auto;
+    justify-content: flex-start;
+    align-items:center;
+    font-family:'Raleway', sans-serif;
+    font-size: 25px;
+    word-wrap: normal;
+    color:black;
+    margin-left: 10px;
+}
+.header{
+    position: fixed;
+    width: 100%;
+    transition: all .7s;
+    z-index: 2;
+}
+.header.active{
+    background: rgb(180, 180, 180);
+    padding: 10px 0;
+}
+.main{
+    background-color:rgb(180, 180, 180);
+    opacity: 100%;
+    width: 100%;
+    height: 70px;
+    display:flex;
+    justify-content: right;
+    align-items:center;
+    gap:20px;
+}
+#profile{
+    margin-right: 10px;
+}
+a{
+    font-size: 20px;
+    font-family:'Raleway', sans-serif;
+    font-weight: bold;
+    color:black;
+    text-decoration: none;
+}
+#main-page, #catalog, #order, #review, #profile{
+    transition: 1s; /* Время эффекта */
+    text-align: center;
+}
+#main-page:hover, #catalog:hover, #order:hover, #review:hover, #profile:hover{
+    transform: scale(1.1);
+}
+#main-page:after, #catalog:after, #order:after, #review:after, #profile:after{
+    content: "";
+    display: flex;
+    right: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: black;
+    transition: width 0.4s;
+}
+#main-page:hover:after, #catalog:hover:after, #order:hover:after, #review:hover:after, #profile:hover:after{
+    width: 100%;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 340px;
+}
+.username{
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    justify-content: flex-start;
+    width: 60%;
+    height: 320px;
+    background-color: #405155;
+}
+.name{
+    font-family:'Raleway', sans-serif;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    width: 300px;
+}
+.navi{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-family:'Avenir', sans-serif;
+    color: white;
+    height: 100%;
+    width: 630px;
+}
+.menu_link{
+    border: none;
+    background: none;
+    color: white;
+    font-size: 25px;
+}
+.menu a{
+    font-weight: 100;
+    font-family:'Avenir', sans-serif;
+    position:relative;
+    text-decoration: none;
+}
+.menu li{
+    list-style: none;
+    font-size: 20px;
+    color:black;
+}
+.menu_list{
+    display: flex;
+}
+.menu_list li{
+    margin: 0px 10px 0px 0px;
+}
+.menu_list li:hover .sub-menu_list{
+    display:block;
+}
+.sub-menu_list{
+    display: none;
+    position:absolute;
+    right: 40px;
+    top: 200px;
+}
+.sub-menu_list li{
+    text-decoration: none;
+}
+.sub-menu_list li:hover{
+    border-bottom: 2px solid black;
+}
+.action{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+}
+.choice{
+    width:61%;
+}
+.choice li{
+    display: inline;
+    margin-right: 30px;
+}
+.choice a{
+    font-size: 18px;
+    font-weight: 100;
+    font-family:'Avenir', sans-serif;
+}
+.choice li:hover{
+    border-top: 4px solid black;
+    padding-top: 12px;
+}
+#myorder, #myadress, #myaccount{
+    display: flex;
+    flex-direction: column;
+    width: 61%;
+    margin-left: 19.5%;
+    height: 400px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.my_title{
+    background-color: #E1EFF2;
+    width: 100%;
+    color: black;
+    font-family:'Raleway', sans-serif;
+    text-transform: uppercase;
+    font-size: 28px;
+}
+.my_description{
+    font-family:'Avenir', sans-serif;
+}
+.total{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-family:'Avenir', sans-serif;
+}
+.total p{
+    text-align: right;
+}
+.status1, .status2, .status3{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 348px;
+    border-top: 1px solid rgba(128, 128, 128, 0.621);
+}
+.answer1, .answer2{
+    font-family:'Avenir', sans-serif;
+    font-size: 20px;
+}
+.status1 a, .status2 a{
+    font-family:'Avenir', sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+}
+.status1 a:hover, .status2 a:hover{
+    border-bottom: 2px solid black;
+}
+.status3{
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family:'Avenir', sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+    height:548px;
+}
+#myaccount{
+    height:600px;
+}
+.warning{
+    color: rgba(128, 128, 128, 0.83);
+}
+form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 270px;
+}
+.fields{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 80%;
+}
+.half{
+    display: flex;
+    flex-direction: column;
+    width: 463.35px;
+}
+input{
+    width:80%;
+    height:30px;
+    border: 1px solid black;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+.submit, #reset{
+    width: 110px;
+    height: 40px;
+}
+.submit{
+    background-color: #000000;
+    color: white
+}
+.submit:hover{
+    background-color: white;
+    color: black;
+}
+#reset{
+    background-color: white;
+    color: black;
+}
+#reset:hover{
+    background-color: #000000;
+    color: white;
+}
+.buttons{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 20px;
+}
+.logout{
+    display: flex;
+    flex-direction: column;
+    width: 61%;
+    margin-left: 19.5%;
+    height: 100px;
+    align-items: flex-end;
+    justify-content: center;
+}
+.logout a{
+    border: 1px solid black;
+    width: 90px;
+    padding-top: 10px;
+    text-align: center;
+    width: 110px;
+    height: 40px;
+    font-size: 20px;
+}
+.logout a:hover{
+    background-color: #000000;
+    color: white;
+}
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    height: 200px;
+    font-family: 'Raleway', sans-serif;
+}
+.footer h1{
+    font-size: 24px;
+}
+.footer h2{
+    font-size: 16px;
+}
+.footer p{
+    font-size: 14px;
+    font-family: 'Avenir', sans-serif;
+}
+.password-checkbox {
+    width: 80px;
+    height: 30px;
+}
+input[type="checkbox"]{
+    width: 15px;
+    height: 15px;
+}

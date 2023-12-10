@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Регистрация</title>
+</head>
+<body>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous">
+
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form action="/salon/registration" method="post" enctype="multipart/form-data">
+            <h1>Создайте аккаунт</h1>
+            <div class="social-container">
+                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>или воспользуйтесь вашей почтой для входа</span>
+            <input type="text" name="username" placeholder="Ваше имя" required/>
+            <input type="email" name="email" placeholder="Email" required/>
+            <input type="password" class="password-input" name="password" placeholder="Пароль" required/>
+            <label><input type="checkbox" class="password-checkbox"> Показать пароль</label>
+            <p th:if="${message}" style="color: red; font-family: 'Avenir', sans-serif; font-size: 14px;" th:text="${message}"></p>
+            <input type="submit" value="Зарегистрироваться">
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form action="" method="post">
+            <h1>Вход</h1>
+            <div class="social-container">
+                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>или используйте ваш аккаунт</span>
+            <input type="email" name="username" placeholder="Email" required/>
+            <input type="password" class="password-input" name="password" placeholder="Пароль" required/>
+            <label><input type="checkbox" class="password-checkbox"> Показать пароль</label>
+            <input type="submit" value="Войти">
+            <p th:if="${param.error}" style="color: red; font-family: 'Avenir', sans-serif; font-size: 14px;">Некорректный ввод логина или пароля</p>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Добро пожаловать!</h1>
+                <p>Для поддержания связи с нами, пожалуйста, войдите с вашей личной информацией</p>
+                <button class="ghost" id="signIn" th:onclick="window.location.href='/login'">Войти</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Привет!</h1>
+                <p>Введите свои личные данные и начните путешествие с нами</p>
+                <button class="ghost" id="signUp">Зарегистрироваться</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/reg.js}"></script>
+<script>
+    $(document).ready(function() {
+        $("body").css("opacity", "1");
+    });
+
+    $('body').on('click', '.password-checkbox', function(){
+        if ($(this).is(':checked')){
+            $('.password-input').attr('type', 'text');
+        } else {
+            $('.password-input').attr('type', 'password');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Service</title>
+</head>
+<body>
+<h2>Add Service</h2>
+
+<form th:action="@{/services/add}" method="post" enctype="multipart/form-data">
+    <label for="serviceName">Service Name:</label>
+    <input type="text" id="serviceName" name="serviceName" required>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" required>
+    <label for="duration">Duration (minutes):</label>
+    <input type="number" id="duration" name="duration" required>
+    <label for="category">Category:</label>
+    <input type="text" id="category" name="category" required>
+    <label for="genderSpecific">Gender Specific:</label>
+    <select id="genderSpecific" name="genderSpecific" required>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Unisex">Unisex</option>
+    </select>
+
+    <label for="serviceImageFile">Service Image:</label>
+    <input type="file" id="serviceImageFile" name="serviceImageFile">
+
+    <button type="submit">Add Service</button>
+    <a th:href="@{/salon/profile}">Отмена</a>
+</form>
+<script>
+    document.getElementById('serviceImageFile').addEventListener('change', function() {
+        var fileInput = this;
+        if (fileInput.files.length > 0) {
+            console.log('File selected:', fileInput.files[0].name);
+        } else {
+            console.log('No file selected');
+        }
+    });
+</script>
+</body>
+</html>

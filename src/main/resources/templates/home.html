@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" th:href="@{/css/aos.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Главная</title>
+</head>
+<body>
+<header>
+    <div class="header">
+        <div class="main">
+            <h1 class="header_title">
+                Салон красоты
+            </h1>
+            <div id="main-page">
+                <a th:href="@{/salon}">Главная</a>
+            </div>
+            <div id="catalog">
+                <a th:href="@{/salon/services}">Услуги</a>
+            </div>
+            <div id="order">
+                <a th:href="@{/salon/appointment}">Запись на услугу</a>
+            </div>
+            <div id="review">
+                <a th:href="@{/salon/reviews}">Отзывы клиентов</a>
+            </div>
+            <div id="profile">
+                <a th:href="@{/salon/profile}">Профиль</a>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="welcome">
+    <div class="hello">
+        <h1 class="title">Добро пожаловать!</h1>
+        <p class="paragraph">Мы рады видеть Вас здесь и надеемся, что наш ресурс станет для Вас полезным и интересным. Наша команда работает над тем, чтобы обеспечить Вам лучший сервис и поддержку. Не стесняйтесь обращаться к нам с вопросами и предложениями. Спасибо за то, что выбрали нас!</p>
+    </div>
+</div>
+<div class="about">
+    <h1 class="about_title1" data-aos="fade-up" data-aos-duration="2000">
+        О нас
+    </h1>
+    <h2 class="about_title2" data-aos="fade-up" data-aos-duration="2000">
+        История успеха
+    </h2>
+    <div class="about_paragraphs" data-aos="fade-up" data-aos-duration="2000">
+        <p>
+            Это страница «О нас».
+            Здесь вы можете подробно рассказать о себе и своей работе,
+            а также предоставить сведения о сайте. Посетителям сайта будет
+            интересно узнать о вас, поэтому вы не боясь можете рассказать
+            им интересные факты из жизни. К тому же, так вы завоюете их
+            доверие.
+        </p>
+        <p>
+            Если вы представляете компанию, укажите,
+            как вы начали свою профессиональную деятельность и
+            чего вам удалось добиться. Перечислите ваши ценности и
+            обязательства перед клиентами. Объясните, чем вы отличаетесь
+            от остальных. Добавьте фотографии и видео, чтобы еще больше
+            заинтересовать посетителей сайта.
+        </p>
+    </div>
+</div>
+<div class="login">
+    <div class="text">
+        <h1>
+            Поделитесь своими впечатлениями
+        </h1>
+        <p>
+            500 Terry Francois Street, 6th Floor. San Francisco, CA 94158
+            <br>
+            info@mysite.com
+            <br>
+            123-456-7890
+        </p>
+    </div>
+    <div class="form">
+        <form method="post" action="/submitReview">
+            <div class="required_fields">
+                <label for="serviceId">Выберите услугу:</label>
+                <br>
+                <select id="serviceId" name="serviceId" required>
+                    <option th:each="service : ${services}" th:value="${service.serviceId}" th:text="${service.serviceName}"></option>
+                </select>
+            </div>
+            <div class="theme">
+                <label for="rating">Рейтинг:</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" required>
+                <label for="masterId">Выберите мастера:</label>
+                <br>
+                <select id="masterId" name="masterId" required>
+                    <option th:each="masterService : ${masterServices}" th:value="${masterService.master.id}" th:text="${masterService.master.username}"></option>
+                </select>
+            </div>
+            <div class="buttons_text">
+                <div class="textarea">
+                    <label for="review">Отзыв</label>
+                    <textarea name="review" id="textarea" cols="50" rows="10" placeholder="Добавьте отзыв..."></textarea>
+                </div>
+                <div class="buttons">
+                    <input type="submit" name="submit" onclick="return confirm('Вы уверены?');" value="Отправить">
+                    <input type="reset" name="reset" value="Сбросить">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="footer">
+    <h1>
+        Мой сайт
+    </h1>
+    <h2>
+        info@mysite.com
+    </h2>
+    <p>
+        © Мой сайт, 2023.
+    </p>
+</div>
+<script th:src="@{/js/aos.js}"></script>
+<script>
+    AOS.init();
+</script>
+<script src="/script.js"></script>
+<script>
+    $(document).ready(function() {
+        $("body").css("opacity", "1");
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Обработчик изменения выбора услуги
+        $('#serviceId').change(function () {
+            var selectedServiceId = $(this).val();
+
+            // Очистка списка мастеров
+            $('#masterId').empty();
+
+            // Если выбрана услуга, загрузить соответствующих мастеров
+            if (selectedServiceId) {
+                $.get('/getMastersByService/' + selectedServiceId, function (data) {
+                    // Добавление мастеров в селект
+                    $.each(data, function (index, master) {
+                        $('#masterId').append('<option value="' + master.id + '">' + master.username + '</option>');
+                    });
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

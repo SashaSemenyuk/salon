@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить услугу мастеру</title>
+</head>
+<body>
+
+<h2>Добавить услугу мастеру</h2>
+
+<!-- Изменения в форме для передачи параметров -->
+<form th:action="@{/profile/assignServiceToMaster}" method="post">
+    <label for="master">Выберите мастера:</label>
+    <select id="master" name="master" required>
+        <option th:each="master : ${masters}" th:value="${master.id}" th:text="${master.username}"></option>
+    </select>
+
+    <label for="service">Выберите услугу:</label>
+    <select id="service" name="service" required>
+        <option th:each="service : ${services}" th:value="${service.serviceId}" th:text="${service.serviceName}"></option>
+    </select>
+
+    <button type="submit">Добавить</button>
+</form>
+
+
+</body>
+</html>

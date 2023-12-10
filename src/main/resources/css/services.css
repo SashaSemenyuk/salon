@@ -1,0 +1,381 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Cormorant:wght@300&family=Merriweather:wght@300&family=Raleway:wght@100&family=Roboto+Slab:wght@200&display=swap');
+@keyframes ani {
+    0% {
+        opacity: 0;
+        transform: translate(0px,200%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0px,0px);
+    }
+}
+
+@media only screen and (min-width: 450px) {
+    .product-wrapper {
+        width: 50%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .product-wrapper {
+        width: 33.333%;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .product-wrapper {
+        width: 25%;
+    }
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    opacity:0;
+    transition:.5s;
+}
+.header_title{
+    display:flex;
+    flex:auto;
+    justify-content: flex-start;
+    align-items:center;
+    font-family:'Raleway', sans-serif;
+    font-size: 25px;
+    word-wrap: normal;
+    color:black;
+    margin-left: 10px;
+}
+.header{
+    position: fixed;
+    width: 100%;
+    transition: all .7s;
+    z-index: 2;
+}
+.header.active{
+    background: rgb(180, 180, 180);
+    padding: 10px 0;
+}
+.main{
+    background-color:rgb(180, 180, 180);
+    opacity: 100%;
+    width: 100%;
+    height: 70px;
+    display:flex;
+    justify-content: right;
+    align-items:center;
+    gap:20px;
+}
+#profile{
+    margin-right: 10px;
+}
+a{
+    font-weight: 300;
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
+    color:black;
+    text-decoration: none;
+}
+#main-page, #catalog, #order, #review, #profile{
+    transition: 1s; /* Время эффекта */
+    text-align: center;
+}
+#main-page:hover, #catalog:hover, #order:hover, #review:hover, #profile:hover{
+    transform: scale(1.1);
+}
+#main-page:after, #catalog:after, #order:after, #review:after, #profile:after{
+    content: "";
+    display: flex;
+    right: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: black;
+    transition: width 0.4s;
+}
+#main-page:hover:after, #catalog:hover:after, #order:hover:after, #review:hover:after, #profile:hover:after{
+    width: 100%;
+}
+.menu{
+    display: flex;
+    padding-top: 100px;
+    width: 100%;
+}
+.options{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    font-family: 'Avenir', sans-serif;
+}
+.filter{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    gap: 20px;
+}
+.filter form{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+}
+.filter label{
+    text-align: center;
+}
+.filter input{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+}
+.filter input[type="submit"]{
+    border: none;
+    background-color: white;
+    color: black;
+}
+.filter input[type="submit"]:hover{
+    background-color: black;
+    color: white;
+}
+.sort{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 160px;
+    gap: 15px;
+}
+.sort input{
+    border: none;
+    background: none;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+.sort input:hover{
+    border-bottom: 1px solid black;
+}
+.search{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 210px;
+    gap: 15px;
+}
+.search form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 10px;
+    border: none;
+    background: none;
+    outline: none;
+}
+.search input{
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+    border-bottom: 1px solid black;
+}
+.search input[type="submit"]{
+    border: none;
+    background-color: white;
+    color: black;
+}
+.search input[type="submit"]:hover{
+    background-color: black;
+    color: white;
+}
+.comp{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+.container{
+    width: 70%;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.no_items{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 300px;
+    font-family: 'Avenir', sans-serif;
+    font-size: 20px;
+}
+.no_items a{
+    font-family: 'Avenir', sans-serif;
+    font-weight: 100;
+    font-size: 14px;
+}
+
+.no_items a:hover{
+    border-bottom: 2px solid black;
+}
+
+.container .card{
+    position: relative;
+    cursor: pointer;
+}
+
+.container .card .face{
+    width: 300px;
+    height: 200px;
+    transition: 0.5s;
+}
+
+.container .card .face.face1{
+    position: relative;
+    background: #405155;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transform: translateY(100px);
+}
+
+.container .card:hover .face.face1{
+    background: rgba(128, 128, 128, 0.621);
+    transform: translateY(0);
+}
+
+.container .card .face.face1 .content{
+    opacity: 0.8;
+    transition: 0.5s;
+}
+
+.container .card:hover .face.face1 .content{
+    opacity: 1;
+}
+
+.container .card .face.face1 .content img{
+    max-width: 100px;
+}
+
+.container .card .face.face1 .content h3{
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+}
+.pr_image{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+    text-align: center;
+}
+.pr_title{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+}
+.container .card .face.face2{
+    position: relative;
+    background: #fff;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    box-sizing: border-box;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    transform: translateY(-100px);
+}
+
+.container .card:hover .face.face2{
+    transform: translateY(0);
+}
+
+.container .card .face.face2 .content p{
+    font-size: 12px;
+    font-family: 'Avenir', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container .card .face.face2 .content .buy input[type="submit"]{
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    display:  inline-block;
+    text-decoration: none;
+    font-weight: 900;
+    color: #333;
+    padding: 5px;
+    border: 1px solid #333;
+}
+
+.container .card .face.face2 .content .buy input[type="submit"]:hover{
+    background: #333;
+    color: #fff;
+}
+input[type="number"]{
+    width: 50px;
+}
+.info{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 98%;
+    padding-left: 2%;
+    height: 100px;
+
+}
+.buy{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 98%;
+    padding-left: 2%;
+    height: 80px;
+}
+label[for="count"]{
+    font-size: 12px;
+    font-family: 'Avenir', sans-serif;
+}
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    height: 200px;
+    font-family: 'Raleway', sans-serif;
+}
+.footer h1{
+    font-size: 24px;
+}
+.footer h2{
+    font-size: 16px;
+}
+.footer p{
+    font-size: 14px;
+    font-family: 'Avenir', sans-serif;
+}
