@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeCont extends Attributes {
     @GetMapping("/salon")
-    public String Index2(Model model) {
+    public String home(Model model) {
         AddAttributesIndex(model);
         AddAttributesServices(model);
         AddAttributesMasterServices(model);

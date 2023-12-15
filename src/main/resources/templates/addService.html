@@ -2,35 +2,63 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Service</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/add.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Добавление услуги</title>
 </head>
 <body>
-<h2>Add Service</h2>
+<form class="formAdd" th:action="@{/services/add}" method="post" enctype="multipart/form-data">
+    <div class="left">
+    <label for="serviceName">Название услуги:</label>
+        <br>
+    <input type="text" id="serviceName" name="serviceName" required><br>
+    <label for="description">Описание:</label><br>
+    <textarea id="description" name="description" required></textarea><br>
+    <label for="price">Цена:</label><br>
+    <input type="number" id="price" name="price" required><br>
+    <label for="duration">Продолжительность (в минутах):</label><br>
+    <input type="number" id="duration" name="duration" required><br>
+    </div>
+    <div class="right">
+    <label for="category">Категория:</label><br>
+    <select id="category" name="category" required>
+        <option value="Ногти">Ногти</option>
+        <option value="Волосы">Волосы</option>
+        <option value="Лицо">Лицо</option>
+    </select><br>
+    <label for="genderSpecific">Для кого подойдёт эта услуга:</label><br>
+    <select id="genderSpecific" name="genderSpecific" required><br>
+        <option value="Мужчинам">Мужчинам</option>
+        <option value="Женщинам">Женщинам</option>
+        <option value="Всем">Всем</option>
+    </select><br>
 
-<form th:action="@{/services/add}" method="post" enctype="multipart/form-data">
-    <label for="serviceName">Service Name:</label>
-    <input type="text" id="serviceName" name="serviceName" required>
-    <label for="description">Description:</label>
-    <textarea id="description" name="description" required></textarea>
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" required>
-    <label for="duration">Duration (minutes):</label>
-    <input type="number" id="duration" name="duration" required>
-    <label for="category">Category:</label>
-    <input type="text" id="category" name="category" required>
-    <label for="genderSpecific">Gender Specific:</label>
-    <select id="genderSpecific" name="genderSpecific" required>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Unisex">Unisex</option>
-    </select>
+    <label for="serviceImageFile">Изображение услуги:</label><br>
+    <input type="file" id="serviceImageFile" name="serviceImageFile"><br>
 
-    <label for="serviceImageFile">Service Image:</label>
-    <input type="file" id="serviceImageFile" name="serviceImageFile">
-
-    <button type="submit">Add Service</button>
-    <a th:href="@{/salon/profile}">Отмена</a>
+    <button type="submit">Добавить</button>
+    </div>
 </form>
+    <a th:href="@{/salon/profile}">Отмена</a>
+
+<div class="footer">
+    <h1>
+        Мой сайт
+    </h1>
+    <h2>
+        info@mysite.com
+    </h2>
+    <p>
+        © Мой сайт, 2023.
+    </p>
+</div>
+<script>
+    $(document).ready(function() {
+        $("body").css("opacity", "1");
+    });
+</script>
 <script>
     document.getElementById('serviceImageFile').addEventListener('change', function() {
         var fileInput = this;

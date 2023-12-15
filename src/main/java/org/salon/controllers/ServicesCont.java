@@ -4,8 +4,6 @@ import java.io.IOException;
 import org.salon.controllers.main.Attributes;
 import org.salon.models.Services;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,7 @@ import java.util.UUID;
 @Controller
 public class ServicesCont extends Attributes {
     @GetMapping("/salon/services")
-    public String Index2(Model model) {
+    public String services(Model model) {
         AddAttributesServices(model);
         return "services";
     }
@@ -43,13 +41,12 @@ public class ServicesCont extends Attributes {
                                       @RequestParam(name = "max_price", required = false) Double maxPrice,
                                       Model model) {
         if (minPrice != null && maxPrice != null && minPrice > maxPrice) {
-            // Handle the error, for example, redirect to an error page
             return "redirect:/error";
         }
 
         List<Services> filteredServices = repoServices.findByPriceBetween(minPrice, maxPrice);
         model.addAttribute("services", filteredServices);
-        return "services"; // Assuming your services view is named "services.html"
+        return "services";
     }
     @GetMapping("/salon/services/sort")
     public String getSortedServices(@RequestParam(name = "sort", required = false, defaultValue = "name") String sort,
@@ -91,7 +88,7 @@ public class ServicesCont extends Attributes {
         }
 
         model.addAttribute("services", searchResults);
-        return "services"; // Assuming your services view is named "services.html"
+        return "services";
     }
     @PostMapping("/services/add")
     public String serviceAdd(Model model, @RequestParam String serviceName, @RequestParam String description, @RequestParam double price, @RequestParam int duration,  @RequestParam String category, @RequestParam String genderSpecific, @RequestParam MultipartFile serviceImageFile) {
@@ -108,7 +105,7 @@ public class ServicesCont extends Attributes {
                 }
             } catch (IOException e) {
                 model.addAttribute("message", "Слишком большой размер аватарки");
-                AddAttributesProductAdd(model);
+                AddAttributesServiceAdd(model);
                 return "addService";
             }
         }
@@ -127,14 +124,15 @@ public class ServicesCont extends Attributes {
     @PostMapping("/services/update/{serviceId}")
     public String updateService(@PathVariable long serviceId, Model model, @ModelAttribute Services updatedService, @RequestParam MultipartFile serviceImageFile) {
         Services existingService = repoServices.findById(serviceId).orElseThrow(() -> new RuntimeException("Service not found"));
-
-
-        // Update the fields
         existingService.setPrice(updatedService.getPrice());
-        existingService.setDiscount(updatedService.getDiscount() != 0 ? calculateDiscountedPrice(updatedService.getPrice(), updatedService.getDiscount()) : updatedService.getPrice());
+        double discountedPrice;
+        if (updatedService.getDiscount() != 0) {
+            discountedPrice = calculateDiscountedPrice(updatedService.getPrice(), updatedService.getDiscount());
+        } else {
+            discountedPrice = 0.00;
+        }
+        existingService.setDiscount(discountedPrice);
         existingService.setAddOns(updatedService.getAddOns());
-
-        // Handle service image update if needed
         String res = "";
         if (serviceImageFile != null && !Objects.requireNonNull(serviceImageFile.getOriginalFilename()).isEmpty()) {
             String uuidFile = UUID.randomUUID().toString();
@@ -147,8 +145,8 @@ public class ServicesCont extends Attributes {
                     serviceImageFile.transferTo(new File(uploadImg + "/" + res));
                 }
             } catch (IOException e) {
-                model.addAttribute("message", "Слишком большой размер аватарки");
-                AddAttributesProductAdd(model);
+                model.addAttribute("message", "Слишком большой размер фотографии");
+                AddAttributesServiceAdd(model);
                 return "updateService";
             }
         }
@@ -159,7 +157,7 @@ public class ServicesCont extends Attributes {
         return "redirect:/salon/services";
     }
 
-    private double calculateDiscountedPrice(double originalPrice, double discount) {
+    public double calculateDiscountedPrice(double originalPrice, double discount) {
         // Calculate the discounted price
         return originalPrice * (1 - discount / 100);
     }

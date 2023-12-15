@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Service</title>
+    <link rel="stylesheet" th:href="@{/css/delete.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Редактирование услуги</title>
 </head>
 <body>
-<h2>Update Service</h2>
 <table>
     <thead>
     <tr>
@@ -18,14 +18,11 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Перебор услуг для отображения в таблице -->
     <tr th:each="service : ${services}">
         <td th:text="${service.serviceId}"></td>
         <td th:text="${service.serviceName}"></td>
         <td th:text="${service.description}"></td>
         <td>
-            <!-- Форма для удаления каждой услуги с подтверждением -->
-
             <form th:action="@{'/services/update/' + ${service.serviceId}}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="serviceId" th:value="${service.serviceId}" />
                 <td>
@@ -36,23 +33,38 @@
                 <label for="discount">Discount:</label>
                 <input type="text" id="discount" name="discount" th:value="${service.discount}" />
                 </td>
+                <td>
                 <label for="addOns">Add-ons:</label>
                 <textarea id="addOns" name="addOns" th:text="${service.addOns}"></textarea>
+                </td>
                 <td>
                 <label for="serviceImageFile">Service Image:</label>
                 <input type="file" id="serviceImageFile" name="serviceImageFile" />
                 </td>
-                <input type="submit" value="Update Service" />
+                <td>
+                <input type="submit" value="Update" />
+                </td>
             </form>
         </td>
     </tr>
     </tbody>
 </table>
-
-<!-- Ссылка для отмены удаления -->
 <a th:href="@{/salon/profile}">Отмена</a>
-
-<!-- Ваши скрипты или другие ресурсы -->
-</body>
+<div class="footer">
+    <h1>
+        Мой сайт
+    </h1>
+    <h2>
+        info@mysite.com
+    </h2>
+    <p>
+        © Мой сайт, 2023.
+    </p>
+</div>
+<script>
+    $(document).ready(function() {
+        $("body").css("opacity", "1");
+    });
+</script>
 </body>
 </html>

@@ -19,14 +19,14 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private long reviewId;
+    @Column
+    private String clientName;
+    @Column
+    private String clientEmail;
 
     @ManyToOne
     @JoinColumn(name = "master_id", nullable = false)
     private Users master;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Users client;
 
     @ManyToOne
     @JoinColumn(name = "service_id", nullable = false)

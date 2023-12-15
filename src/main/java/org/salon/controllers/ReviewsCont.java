@@ -5,6 +5,8 @@ import org.salon.models.Reviews;
 import org.salon.models.Services;
 import org.salon.models.Users;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -14,25 +16,30 @@ import java.util.List;
 
 @Controller
 public class ReviewsCont extends Attributes {
+    @GetMapping("/salon/reviews")
+    public String reviews(Model model){
+        AddAttributesReviews(model);
+        return "reviews";
+    }
     @PostMapping("/submitReview")
-    public String submitReview(@RequestParam("serviceId") Long serviceId,
+    public String submitReview(@RequestParam("clientName") String clientName,
+                               @RequestParam("clientEmail") String clientEmail,
+                               @RequestParam("serviceId") Long serviceId,
                                @RequestParam("masterId") Long masterId,
                                @RequestParam("review") String review,
-                               @RequestParam("rating") double rating,
-                               Principal principal) {
+                               @RequestParam("rating") double rating) {
 
-        // Получаем текущего пользователя (клиента)
-        Users client = repoUsers.findByUsername(principal.getName());
 
         // Получаем выбранную услугу и мастера
         Services service = repoServices.findById(serviceId).orElse(null);
         Users master = repoUsers.findById(masterId).orElse(null);
 
         // Проверяем, что все необходимые объекты получены
-        if (client != null && service != null && master != null) {
+        if (service != null && master != null) {
             // Создаем объект отзыва
             Reviews newReview = new Reviews();
-            newReview.setClient(client);
+            newReview.setClientName(clientName);
+            newReview.setClientEmail(clientEmail);
             newReview.setService(service);
             newReview.setMaster(master);
             newReview.setReviewDate(new Date());

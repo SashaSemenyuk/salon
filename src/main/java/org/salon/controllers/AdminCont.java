@@ -7,6 +7,7 @@ import org.salon.models.Users;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,7 +20,7 @@ public class AdminCont extends Attributes {
     public String addServiceToMaster(Model model) {
         List<Users> masters = repoUsers.findByRole("master");
         List<Services> services = repoServices.findAll();
-
+        AddAttributesProfile(model);
         model.addAttribute("masters", masters);
         model.addAttribute("services", services);
 
@@ -46,7 +47,7 @@ public class AdminCont extends Attributes {
 
     @GetMapping("/profile/updateUserRole")
     public String updateUser(Model model) {
-        List<Users> users = repoUsers.findByRoleNot("admin");
+        List<Users> users = repoUsers.findByRole("client");
         model.addAttribute("users", users);
         return "manageUsers";
     }
@@ -57,6 +58,18 @@ public class AdminCont extends Attributes {
             user.setRole(newRole);
             repoUsers.save(user);
         });
+        return "redirect:/salon/profile";
+    }
+    @GetMapping("/profile/deleteUser")
+    public String deleteUser(Model model) {
+        List<Users> users = repoUsers.findByRoleNot("admin");
+        model.addAttribute("users", users);
+        return "deleteUser";
+    }
+    @PostMapping("/profile/deleteUser/{id}")
+    public String userDelete(@PathVariable Long id) {
+        Users user = repoUsers.getReferenceById(id);
+        repoUsers.delete(user);
         return "redirect:/salon/profile";
     }
 }

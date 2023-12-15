@@ -206,6 +206,12 @@ a{
 .total p{
     text-align: right;
 }
+.status1 {
+    max-height: 300px; /* Установите максимальную высоту блока по вашему выбору */
+    overflow-y: auto; /* Добавляет вертикальную прокрутку, если контент не помещается */
+    border: 1px solid #ccc; /* Добавляет рамку для наглядности */
+    padding: 10px; /* Добавляет немного отступа внутри блока */
+}
 .status1, .status2, .status3{
     display: flex;
     flex-direction: column;
@@ -246,6 +252,9 @@ form{
     flex-direction: column;
     width: 100%;
     height: 270px;
+    font-family: 'Raleway', sans-serif;
+    color: black;
+    font-weight: bold;
 }
 .fields{
     display: flex;
@@ -266,7 +275,7 @@ input{
     font-weight: bold;
     font-size: 14px;
 }
-.submit, #reset{
+.submit, .reset{
     width: 110px;
     height: 40px;
 }
@@ -278,11 +287,11 @@ input{
     background-color: white;
     color: black;
 }
-#reset{
+.reset{
     background-color: white;
     color: black;
 }
-#reset:hover{
+.reset:hover{
     background-color: #000000;
     color: white;
 }

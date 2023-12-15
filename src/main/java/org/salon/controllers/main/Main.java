@@ -17,30 +17,15 @@ public class Main {
     protected RepoUsers repoUsers;
     @Autowired
     protected RepoMasterServices repoMasterServices;
-//    @Autowired
-//    protected RepoActions repoActions;
-//    @Autowired
-//    protected RepoCarts repoCarts;
+    @Autowired
+    protected RepoAppointments repoAppointments;
     @Autowired
     protected RepoReviews repoReviews;
     @Autowired
     protected RepoServices repoServices;
-//    @Autowired
-//    protected RepoServes repoServes;
 
     @Value("${upload.img}")
     protected String uploadImg;
-
-//    protected Map<DeviceType, String> defDevices = new HashMap<>();
-//
-//    {
-//        defDevices.put(DeviceType.SENSORY, "default/phone.png");
-//        defDevices.put(DeviceType.FOLDING, "default/laptop.png");
-//        defDevices.put(DeviceType.PUSH_BUTTON, "default/pc.png");
-//        defDevices.put(DeviceType.CURVED, "default/tablet.png");
-//    }
-
-//    protected String defAvatar = "default/avatar.png";
 
     protected Users getUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -78,25 +63,9 @@ public class Main {
         return 0L;
     }
 
-//    protected String getAvatar() {
-//        Users user = getUser();
-//        if (user != null) return user.getAvatar();
-//        return defAvatar;
-//    }
-
     protected String getFirstnameLastname() {
         Users user = getUser();
-        if (user != null) return user.getFirstname() + " " + user.getLastName();
+        if (user != null) return user.getFirstName() + " " + user.getLastName();
         return "Добро пожаловать";
     }
-
-    protected String DateAndTimeNow() {
-        String date = LocalDateTime.now().toString();
-        return date.substring(0, 10) + " " + date.substring(11, 19);
-    }
-
-    protected String DateNow() {
-        return LocalDateTime.now().toString().substring(0, 10);
-    }
-
 }

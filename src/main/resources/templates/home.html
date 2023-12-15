@@ -82,6 +82,14 @@
     <div class="form">
         <form method="post" action="/submitReview">
             <div class="required_fields">
+                <div class="name">
+                    <label for="name">Имя*</label>
+                    <input id="name" name="clientName" type="text" placeholder="Введите своё имя" required autocomplete="off">
+                </div>
+                <div class="email">
+                    <label for="email">Эл. почта*</label>
+                    <input id="email" name="clientEmail" type="email" placeholder="Добавьте эл. почту" required onclick="ValidMail();" autocomplete="off">
+                </div>
                 <label for="serviceId">Выберите услугу:</label>
                 <br>
                 <select id="serviceId" name="serviceId" required>
@@ -89,8 +97,6 @@
                 </select>
             </div>
             <div class="theme">
-                <label for="rating">Рейтинг:</label>
-                <input type="number" id="rating" name="rating" min="1" max="5" required>
                 <label for="masterId">Выберите мастера:</label>
                 <br>
                 <select id="masterId" name="masterId" required>
@@ -102,6 +108,8 @@
                     <label for="review">Отзыв</label>
                     <textarea name="review" id="textarea" cols="50" rows="10" placeholder="Добавьте отзыв..."></textarea>
                 </div>
+                <label for="rating">Рейтинг:</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" required style="height: 15px">
                 <div class="buttons">
                     <input type="submit" name="submit" onclick="return confirm('Вы уверены?');" value="Отправить">
                     <input type="reset" name="reset" value="Сбросить">
@@ -145,8 +153,8 @@
             if (selectedServiceId) {
                 $.get('/getMastersByService/' + selectedServiceId, function (data) {
                     // Добавление мастеров в селект
-                    $.each(data, function (index, master) {
-                        $('#masterId').append('<option value="' + master.id + '">' + master.username + '</option>');
+                    $.each(data, function (index, masters) {
+                        $('#masterId').append('<option value="' + masters.id + '">' + masters.username + '</option>');
                     });
                 });
             }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,10 +21,10 @@
             <a th:href="@{/salon/services}">Услуги</a>
         </div>
         <div id="order">
-            <a th:href="@{/order}">Заказ продукции</a>
+            <a th:href="@{/salon/appointment}">Запись на услугу</a>
         </div>
         <div id="review">
-            <a th:href="@{/review}">Отзывы клиентов</a>
+            <a th:href="@{/salon/reviews}">Отзывы клиентов</a>
         </div>
         <div id="profile">
             <a th:href="@{/salon/profile}">Профиль</a>
@@ -46,6 +46,7 @@
                             <li class="sub-menu_link"><a th:href="@{/services/update/}">Изменить услугу</a></li>
                             <li class="sub-menu_link"><a th:href="@{/profile/updateUserRole}">Добавить мастера</a></li>
                             <li class="sub-menu_link"><a th:href="@{/profile/addServiceToMaster}">Добавить услугу мастеру</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/profile/deleteUser}">Удалить пользователя</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -56,12 +57,10 @@
                 <ul class="menu_list">
                     <li>
                         <a href="#" class="menu_link">&#8942;</a>
-                        <ul class="sub-menu_list" style="right: 100px; top: 250px;">
-<!--                            <li class="sub-menu_link"><a th:href="@{/services/add}">Добавить услугу</a></li>-->
-<!--                            <li class="sub-menu_link"><a th:href="@{/services/delete/}">Удалить услугу</a></li>-->
+                        <ul class="sub-menu_list" style="right: 80px; top: 270px;">
                             <li class="sub-menu_link"><a th:href="@{/profile/addServiceToMaster}">Добавить услугу</a></li>
-                            <li class="sub-menu_link"><a th:href="@{/services/update/}">Отмена записи</a></li>
-                            <li class="sub-menu_link"><a th:href="@{/profile/updateUserRole}">Просмотр записей</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/appointment/complete/}">Завершение записи</a></li>
+                            <li class="sub-menu_link"><a th:href="@{/appointment/cancel/}">Отмена записи</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -73,49 +72,113 @@
 <div class="action">
     <div class="choice">
         <ul>
-            <li><a href="#myorder">Мои заказы</a></li>
-            <li><a href="#myadress">Мои адреса</a></li>
+            <li th:if="${user.role != 'admin'}"><a href="#myorder">Мои записи</a></li>
+            <li><a href="#myadress">Мои данные</a></li>
             <li><a href="#myaccount">Мой аккаунт</a></li>
         </ul>
     </div>
 </div>
 
-<div id="myorder">
-    <h1 class="my_title">Мои заказы</h1>
-    <p class="my_description">Просматривайте историю заказов и проверяйте статус недавних заказов.</p>
+<div th:if="${user.role != 'admin'}" id="myorder">
+    <h1 class="my_title">Мои записи</h1>
+    <p class="my_description">Просматривайте историю записей и проверяйте статус своих записей.</p>
+    <p th:if="${user.role == 'client'}" class="my_description">Для отмены записи перейдите по ссылке <a th:href="@{/appointment/cancel/}" class="my_description">Отмена записи</a></p>
     <div class="status1">
-<!--        <div th:if="${orders.length > 0}">-->
-<!--            <div th:each="order : ${orders}" class="total">-->
-<!--                <ul>-->
-<!--                    <li th:each="i : ${#numbers.sequence(0, order.title.size() - 1)}">-->
-<!--                        <span th:text="${order.title[i]}, ${order.author[i]}, ${order.count[i]} шт."></span>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--                <p th:text="'Итого: ' + ${order.price}"></p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div th:unless="${orders.length > 0}">-->
-<!--            <p class="answer1">Вы пока ничего не заказывали.</p>-->
-<!--            <a href="/catalog">Смотреть</a>-->
-<!--        </div>-->
+        <div th:if="${not #lists.isEmpty(appoints)}">
+            <div th:each="appoint : ${appoints}" class="total">
+                <ul th:if="${appoint.client.id == user.id || appoint.master.id == user.id}">
+                    <!-- Ваш код, который должен отобразиться только при совпадении -->
+                    <li>
+                        <span th:if="${appoint.client.id == user.id}" th:text="${{appoint.service.serviceName + ', ' + appoint.master.firstName + ' ' + appoint.master.lastName + ', ' + appoint.appointmentDate + ', ' + appoint.status}}"></span>
+                        <span th:if="${appoint.master.id == user.id}" th:text="${{appoint.service.serviceName + ', ' + appoint.client.firstName + ' ' + appoint.client.lastName + ', ' + appoint.appointmentDate + ', ' + appoint.status}}"></span>
+                    </li>
+                    <!-- Добавьте здесь дополнительный код, который нужно отобразить -->
+                </ul>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(appoints)}">
+            <p class="answer1">У вас пока нет записей.</p>
+            <a th:if="${user.role == 'client'}" href="/salon/appointment">Записаться</a>
+        </div>
     </div>
 </div>
 
 <div id="myadress">
-    <h1 class="my_title">Мои адреса</h1>
+    <h1 class="my_title">Мои данные</h1>
     <p class="my_description">Просматривайте историю адресов, которые часто используете</p>
     <div class="status2">
-<!--        <div th:if="${orders.length > 0}">-->
-<!--            <div th:each="order : ${orders}" class="total">-->
-<!--                <ul>-->
-<!--                    <li th:text="'г. ' + ${order.town} + ', ул. ' + ${order.street} + ', дом ' + ${order.home}"></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div th:unless="${orders.length > 0}">-->
-<!--            <p class="answer2">Вы ещё не сохранили ни одного адреса.</p>-->
-<!--            <a href="/order">Добавить</a>-->
-<!--        </div>-->
+        <div th:if="${user.role == 'master'}">
+            <form th:action="@{'/personalMasterInfo/' + ${user.id}}" method="post">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <div class="fields">
+                    <div class="half">
+                        <label for="firstName">Ваше имя</label><br>
+                        <input type="text" id="firstName" name="firstName" th:value="${user.firstName}">
+                        <br>
+                        <label for="lastName">Ваша фамилия</label><br>
+                        <input type="text" id="lastName" name="lastName" th:placeholder="${user.lastName}">
+                    </div>
+                    <div class="half">
+                        <label for="phone">Номер телефона</label><br>
+                        <input type="text" class="phone" id="phone" name="mobilePhone" th:value="${user.mobilePhone}">
+                        <br>
+                        <label for="spec">Специализация</label><br>
+                        <input type="text" id="spec" name="specialization" th:value="${user.specialization}">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <input type="submit" class="submit" onclick="return confirm('Вы уверены?');" value="Обновить">
+                    <input type="reset" class="reset">
+                </div>
+            </form>
+        </div>
+        <div th:if="${user.role == 'client'}">
+            <form th:action="@{'/personalClientInfo/' + ${user.id}}" method="post">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <div class="fields">
+                    <div class="half">
+                        <label for="firstClientName">Ваше имя</label><br>
+                        <input type="text" id="firstClientName" name="firstName" th:value="${user.firstName}">
+                        <br>
+                        <label for="lastClientName">Ваша фамилия</label><br>
+                        <input type="text" id="lastClientName" name="lastName" th:placeholder="${user.lastName}">
+                    </div>
+                    <div class="half">
+                        <label for="phoneClient">Номер телефона</label><br>
+                        <input type="text" class="phone" id="phoneClient" name="mobilePhone" th:value="${user.mobilePhone}">
+                        <br>
+                        <label for="specClient">Дата рождения</label><br>
+                        <input type="date" id="specClient" name="birthdate" th:field="${user.birthdate}" th:type="date" th:attr="placeholder=#{'Введите дату рождения'}">
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/momentjs/latest/moment-with-locales.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                $('#specClient').on('focus', function() {
+                                    $(this).attr('type', 'date');
+                                });
+
+                                $('#specClient').on('blur', function() {
+                                    $(this).attr('type', 'text');
+                                });
+
+                                // Если вы хотите сохранить дату в формате MySQL DATE
+                                $('#specClient').on('change', function() {
+                                    var inputValue = $(this).val();
+                                    var formattedDate = moment(inputValue).format('YYYY-MM-DD');
+                                    $(this).val(formattedDate);
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <input type="submit" class="submit" onclick="return confirm('Вы уверены?');" value="Обновить">
+                    <input type="reset" class="reset">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -126,7 +189,7 @@
         <p>Обновите личную информацию.</p>
         <p th:text="'Эл. почта для входа: ' + ${user.email}"></p>
         <p class="warning">Адрес эл. почты, используемый для входа, нельзя изменить</p>
-        <form th:action="@{/profile}" method="post">
+        <form th:action="@{'/salon/profile/' + ${user.id}}" method="post">
             <div class="fields">
                 <div class="half">
                     <label for="username">Имя пользователя</label><br>
@@ -143,7 +206,7 @@
             </div>
             <div class="buttons">
                 <input type="submit" class="submit" onclick="return confirm('Вы уверены?');" value="Обновить">
-                <input type="reset" id="reset">
+                <input type="reset" class="reset">
             </div>
         </form>
     </div>
@@ -172,6 +235,13 @@
         } else {
             $('#password').attr('type', 'password');
         }
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.phone').inputmask('+375 (99) 999-99-99');
     });
 </script>
 </body>

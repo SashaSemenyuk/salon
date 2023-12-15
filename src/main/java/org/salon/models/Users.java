@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -54,10 +55,8 @@ public class Users implements UserDetails {
 
     // Поля, специфичные для клиентов
     @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthdate;
-
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<Reviews> review;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Appointments> appointment;
@@ -105,10 +104,6 @@ public class Users implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
-    }
-
-    public String getFirstname() {
-        return firstName;
     }
 
     // Геттеры и сеттеры

@@ -2,28 +2,43 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/add.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <title>Добавить услугу мастеру</title>
 </head>
 <body>
-
-<h2>Добавить услугу мастеру</h2>
-
-<!-- Изменения в форме для передачи параметров -->
-<form th:action="@{/profile/assignServiceToMaster}" method="post">
-    <label for="master">Выберите мастера:</label>
+<form class="formAdd" th:action="@{/profile/assignServiceToMaster}" method="post">
+    <div class="left">
+    <label for="master">Выберите мастера:</label><br>
     <select id="master" name="master" required>
-        <option th:each="master : ${masters}" th:value="${master.id}" th:text="${master.username}"></option>
-    </select>
-
-    <label for="service">Выберите услугу:</label>
+        <option th:if="${user.role == 'master'}" th:value="${user.id}" th:text="${user.username}"></option>
+        <option th:if="${user.role == 'admin'}" th:each="master : ${masters}" th:value="${master.id}" th:text="${master.username}"></option>
+    </select><br>
+    <label for="service">Выберите услугу:</label><br>
     <select id="service" name="service" required>
         <option th:each="service : ${services}" th:value="${service.serviceId}" th:text="${service.serviceName}"></option>
-    </select>
-
+    </select><br>
+    </div>
     <button type="submit">Добавить</button>
 </form>
-
-
+<a th:href="@{/salon/profile}">Отмена</a>
+<div class="footer">
+    <h1>
+        Мой сайт
+    </h1>
+    <h2>
+        info@mysite.com
+    </h2>
+    <p>
+        © Мой сайт, 2023.
+    </p>
+</div>
+<script>
+    $(document).ready(function() {
+        $("body").css("opacity", "1");
+    });
+</script>
 </body>
 </html>

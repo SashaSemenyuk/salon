@@ -78,15 +78,8 @@
                         <input type="submit" value="&#x1F50E;&#xFE0E;">
                     </div>
                 </form>
-                <form>
-                    <label for="author">По автору:</label>
-                    <div class="comp">
-                        <input type="search" id="author" name="author" placeholder="Автор" required>
-                        <input type="submit" value="&#x1F50E;&#xFE0E;">
-                    </div>
-                </form>
             </div>
-    </div>
+        </div>
     </div>
     <div class="container">
         <div th:if="${not #lists.isEmpty(services)}">
@@ -109,24 +102,16 @@
                         <div class="info">
                             <p th:text="${service.description}"></p>
                             <p th:text="'Категория: ' + ${service.category}"></p>
-                            <p th:text="'Пол: ' + ${service.genderSpecific}"></p>
+                            <p th:text="'Кому подойдёт: ' + ${service.genderSpecific}"></p>
                             <div class="buy">
 
                                 <p th:if="${service.discount > 0}">
                                     <span th:text="'Цена: ' + ${service.price}" style="text-decoration: line-through; font-size: 20px; font-weight: bold; width:50px;"></span>
                                     <br>
                                     <span th:text="' Со скидкой: ' + ${service.discount}" style="font-size: 20px; font-weight: bold; width:50px; color: red;"></span>
+                                    <span th:text="' *' + ${service.addOns}" style="font-size: 14px; font-weight: bold; width:50px; color: red;"></span>
                                 </p>
-                                <p th:unless="${service.discount > 0}" style="font-size: 20px; font-weight: bold; width:50px;" th:text="'Цена: ' + ${service.price}"></p>
-
-<!--                                                        <form method="post" th:action="@{/add-to-cart}">-->
-<!--                                                            <input type="hidden" name="title" th:value="${service.title}" />-->
-<!--                                                            <input type="hidden" name="author" th:value="${service.author}" />-->
-<!--                                                            <input type="hidden" name="price" th:value="${service.price}" />-->
-<!--                                                            <input type="hidden" name="pr_id" th:value="${service.id}" />-->
-<!--                                                            <input type="number" name="count" value="1" placeholder="1" min="1" th:max="${service.count}" required>-->
-<!--                                                            <input type="submit" value="В корзину">-->
-<!--                                                        </form>-->
+                                <p th:if="${service.discount == 0}" style="font-size: 20px; font-weight: bold; width:50px;" th:text="'Цена: ' + ${service.price}"></p>
                             </div>
                         </div>
                     </div>
